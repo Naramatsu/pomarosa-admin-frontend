@@ -27,7 +27,7 @@ export const useProducts = () => {
       });
     else
       setProducts({
-        ...products,
+        data: [],
         status: RequestStatus.ERROR,
       });
   };
@@ -45,7 +45,7 @@ export const useProducts = () => {
       });
     else
       setProducts({
-        ...products,
+        data: [],
         status: RequestStatus.ERROR,
       });
   };
@@ -83,8 +83,8 @@ export const useProducts = () => {
         status: RequestStatus.LOADED,
       });
     else
-      setProduct({
-        ...product,
+      setProducts({
+        data: [],
         status: RequestStatus.ERROR,
       });
   };

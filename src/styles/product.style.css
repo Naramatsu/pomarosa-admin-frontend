@@ -39,6 +39,10 @@
     gap: 10px;
     align-items: center;
 
+    &.inactive {
+      background: rgba(205, 188, 188, 0.5);
+    }
+
     &.add-item {
       display: flex;
       flex-direction: column;
@@ -74,6 +78,17 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 20px;
+
+  button {
+    grid-column: span 2;
+    border-radius: 10px;
+  }
+
+  &.column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
 }
 
 .form-control {
@@ -127,5 +142,27 @@
         font-size: 14px;
       }
     }
+  }
+}
+
+.login-page {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 100%;
+  max-width: 500px;
+  height: 500px;
+  padding: 20px;
+
+  border-radius: 10px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+
+  background: var(--color-theme);
+  color: var(--bg-theme);
+
+  h1 {
+    text-align: center;
   }
 }

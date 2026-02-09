@@ -16,8 +16,13 @@ export const ProductItem: React.FC<{ product: IProduct }> = ({ product }) => {
     navigate(`/products/${product._id}`);
   };
 
+  const isAvailableClassName = product.isAvailable ? "" : "inactive";
+
   return (
-    <section className="product-item" onClick={handlerClick}>
+    <section
+      className={`product-item ${isAvailableClassName}`}
+      onClick={handlerClick}
+    >
       <img src={img} alt={`${product.name.SPANISH}`} />
       <section className="product-item-info">
         <p className="name">{product.name.SPANISH}</p>

@@ -77,6 +77,13 @@ export const AddProductForm = () => {
         isRequired: true,
       },
       {
+        label: "Sección en el menú",
+        name: "section",
+        value: productForm?.section,
+        type: "text",
+        isRequired: true,
+      },
+      {
         label: "Precio caliente",
         name: "hotPrice",
         value: productForm?.hotPrice,
@@ -99,13 +106,6 @@ export const AddProductForm = () => {
         name: "familiar",
         value: productForm?.familiar,
         type: "number",
-      },
-      {
-        label: "Sección en el menú",
-        name: "section",
-        value: productForm?.section,
-        type: "text",
-        isRequired: true,
       },
     ],
     [productForm],

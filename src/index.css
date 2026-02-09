@@ -319,4 +319,9 @@ button:hover {
       cursor: pointer;
     }
   }
+
+  .modal-content {
+    height: auto;
+    overflow: auto;
+  }
 }

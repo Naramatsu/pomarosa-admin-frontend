@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { loginService } from "../services/user";
+import React, { useEffect, useState } from "react";
+import { loginService, logoutService } from "../services/user";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "../store/globalState";
 import { jwtDecode } from "jwt-decode";
@@ -12,9 +12,17 @@ const loginFormInitialState = {
 };
 
 export const LoginPage = () => {
-  const { setToken, setUserProfile } = useStore();
+  const { setToken, userProfile, setUserProfile } = useStore();
   const [loginForm, setLoginForm] = useState(loginFormInitialState);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (userProfile.data?.user)
+      (async () => {
+        await logoutService(userProfile.data?.user ?? "");
+      })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handlerChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.currentTarget;
@@ -45,22 +53,32 @@ export const LoginPage = () => {
   };
 
   return (
-    <section>
-      <h1>Hello from Login page</h1>
-      <form onSubmit={onLogin}>
-        <input
-          type="text"
-          name="user"
-          value={loginForm.user}
-          onChange={handlerChange}
-        />
-        <input
-          type="password"
-          name="password"
-          value={loginForm.password}
-          onChange={handlerChange}
-        />
-        <button type="submit">login</button>
+    <section className="login-page">
+      <h1>Iniciar sesión</h1>
+      <form onSubmit={onLogin} className="form-product column">
+        <section className="form-control">
+          <label>Usuario</label>
+          <input
+            type="text"
+            name="user"
+            onChange={handlerChange}
+            value={loginForm.user}
+          />
+        </section>
+
+        <section className="form-control">
+          <label>Contraseña</label>
+          <input
+            type="password"
+            name="password"
+            onChange={handlerChange}
+            value={loginForm.password}
+          />
+        </section>
+
+        <button type="submit" className="info btn-logout">
+          login
+        </button>
       </form>
     </section>
   );
