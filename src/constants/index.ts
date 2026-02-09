@@ -10,3 +10,11 @@ export enum ToasTypes {
   INFO = "info",
   ERROR = "error",
 }
+
+export const APP_ROUTES = {
+  HOME: "/",
+  PRODUCTS: "/products",
+  PRODUCT: "/products/:productId",
+  USERS: "/users",
+  LOGIN: "/login",
+};

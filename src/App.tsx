@@ -1,22 +1,16 @@
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { useStore } from "./store/globalState";
 import { LoginPage } from "./pages/LoginPage";
 import { useEffect } from "react";
 import { HomePage } from "./pages/HomePage";
 import { ProductsPage } from "./pages/ProductsPage";
 import { ProductPage } from "./pages/ProductPage";
-import { logoutService } from "./services/user";
-import { RequestStatus } from "./constants";
 import { Toast } from "./components/Toast";
+import { DashboardLayout } from "./layouts/DashboardLayout";
+import { APP_ROUTES } from "./constants";
 
 const App = () => {
-  const { userProfile, setUserProfile, toast, setToast } = useStore();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!userProfile.data) navigate("/login");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { userProfile, toast, setToast } = useStore();
 
   useEffect(() => {
     let timer = undefined;
@@ -46,48 +40,35 @@ const App = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [toast]);
 
-  const onLogout = async () => {
-    await logoutService(userProfile.data?.user ?? "");
-    setUserProfile({
-      status: RequestStatus.NOT_LOADED,
-      data: null,
-    });
-  };
+  if (!userProfile.data?.user) {
+    return (
+      <>
+        <Toast visible={toast.visible} type={toast.type}>
+          {toast.value}
+        </Toast>
+        <Routes>
+          <Route path={APP_ROUTES.LOGIN} element={<LoginPage />} />
+          <Route path="*" element={<LoginPage />} />
+        </Routes>
+      </>
+    );
+  }
 
   return (
-    <main className="app-main">
-      {userProfile.data?.user && (
-        <section className="global-menu">
-          <img src="logo.webp" alt="pomarosa_logo" className="logo" />
-          <h3>Bienvenido al modulo de administración</h3>
-          <span className="separator" />
-          <section className="btn-group">
-            <button className="btn-menu" onClick={() => navigate("/users")}>
-              Administradores
-            </button>
-            <button className="btn-menu" onClick={() => navigate("/products")}>
-              Productos
-            </button>
-          </section>
-          <button className="btn-logout error" onClick={onLogout}>
-            Cerrar sesión
-          </button>
-        </section>
-      )}
-
+    <>
       <Toast visible={toast.visible} type={toast.type}>
         {toast.value}
       </Toast>
-
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/products" element={<ProductsPage />} />
-        <Route path="/products/:productId" element={<ProductPage />} />
-        <Route path="/users" element={<ProductsPage />} />
-        <Route path="/test" element={<p>Hello from test</p>} />
-        <Route path="/login" element={<LoginPage />} />
-      </Routes>
-    </main>
+      <DashboardLayout>
+        <Routes>
+          <Route path={APP_ROUTES.HOME} element={<HomePage />} />
+          <Route path={APP_ROUTES.PRODUCTS} element={<ProductsPage />} />
+          <Route path={APP_ROUTES.PRODUCT} element={<ProductPage />} />
+          <Route path={APP_ROUTES.USERS} element={<ProductsPage />} />
+          <Route path="/test" element={<p>Hello from test</p>} />
+        </Routes>
+      </DashboardLayout>
+    </>
   );
 };
 

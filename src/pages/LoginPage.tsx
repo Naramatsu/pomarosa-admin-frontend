@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useStore } from "../store/globalState";
 import { jwtDecode } from "jwt-decode";
 import type { IUser } from "../interfaces/user";
-import { RequestStatus } from "../constants";
+import { APP_ROUTES, RequestStatus } from "../constants";
 
 const loginFormInitialState = {
   user: "",
@@ -45,7 +45,7 @@ export const LoginPage = () => {
           data: decoded,
           status: RequestStatus.LOADED,
         });
-        navigate("/");
+        navigate(APP_ROUTES.HOME);
       }
     } catch (error) {
       console.error(error);
@@ -76,7 +76,7 @@ export const LoginPage = () => {
           />
         </section>
 
-        <button type="submit" className="info btn-logout">
+        <button type="submit" className="info">
           login
         </button>
       </form>

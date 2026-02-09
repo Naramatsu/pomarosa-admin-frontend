@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useProducts } from "../hooks/useProducts";
 import type { IUpdateProductRequest } from "../interfaces/product";
 import { BackArrow } from "../assets/icons";
-import { ToasTypes } from "../constants";
+import { APP_ROUTES, ToasTypes } from "../constants";
 
 /* img: optional.string */
 
@@ -26,7 +26,7 @@ export const ProductPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productId]);
 
-  if (!product.data) navigate("/");
+  if (!product.data) navigate(APP_ROUTES.HOME);
   const productInfo = useMemo(() => product.data, [product.data]);
   const inputs = useMemo(
     () => [
