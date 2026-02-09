@@ -6,17 +6,20 @@ import { BackArrow } from "../assets/icons";
 import { useNavigate } from "react-router-dom";
 import { Spinner } from "../components/Spinner";
 import { RequestStatus } from "../constants";
-import "../styles/product.style.css";
 import { Modal } from "../components/Modal";
 import { AddProductForm } from "../components/AddProductForm";
+import AdvancedFilterForm from "../components/AdvancedFilterForm";
+import "../styles/product.style.css";
 
 export const ProductsPage = memo(() => {
-  const { productsQuickfilter, fetchAllProducts } = useProducts();
+  const { productsQuickfilter, fetchAllProducts, productsAdvancedFilter } =
+    useProducts();
   const { products } = useStore();
   const [filterInput, setFilterInput] = useState("");
   const [debouncedValue, setDebouncedValue] = useState("");
   const [isTypeLoading, setIsTypeLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [showFilterModal, setShowFilterModal] = useState(false);
 
   const navigate = useNavigate();
 
@@ -56,20 +59,35 @@ export const ProductsPage = memo(() => {
   return (
     <section className="products-section">
       <section className="page-header">
-        <BackArrow colors="#fff" onClick={() => navigate(-1)} />
-        <h1>Listado de productos</h1>
+        <button
+          className="back-button"
+          onClick={() => navigate(-1)}
+          aria-label="Volver"
+        >
+          <BackArrow colors="#fff" />
+        </button>
+        <div className="page-title-wrapper">
+          <h1>Listado de productos</h1>
+          <p className="page-subtitle">
+            {isLoading ? "Cargando..." : `${productList.length} productos`}
+          </p>
+        </div>
       </section>
 
       <section className="search-section-container">
         <section className="search-section">
-          <section className={`form-control ${isLoading ? "loading" : ""}`}>
+          <section
+            className={`form-control quick-filter ${isLoading ? "loading" : ""}`}
+          >
             <label htmlFor="iput-search">Filtro rápido</label>
             <input
               id="iput-search"
+              className="quick-filter-input"
               type="text"
               value={filterInput}
               placeholder="filtrar por nombre, código, área o sección"
               onChange={(event) => setFilterInput(event.target.value)}
+              aria-label="Filtro rápido"
             />
             {isLoading && <Spinner />}
           </section>
@@ -78,6 +96,9 @@ export const ProductsPage = memo(() => {
           </button>
           <button className="success" onClick={() => setShowModal(true)}>
             Agregar
+          </button>
+          <button className="info" onClick={() => setShowFilterModal(true)}>
+            Filtro avanzado
           </button>
         </section>
       </section>
@@ -94,6 +115,20 @@ export const ProductsPage = memo(() => {
         onClose={() => setShowModal(false)}
       >
         <AddProductForm />
+      </Modal>
+
+      <Modal
+        visible={showFilterModal}
+        title="Filtro avanzado"
+        onClose={() => setShowFilterModal(false)}
+      >
+        <AdvancedFilterForm
+          onApply={async (params) => {
+            await productsAdvancedFilter(params);
+            setShowFilterModal(false);
+          }}
+          onClose={() => setShowFilterModal(false)}
+        />
       </Modal>
     </section>
   );

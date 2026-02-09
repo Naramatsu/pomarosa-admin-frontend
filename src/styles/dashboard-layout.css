@@ -27,7 +27,6 @@
   }
 }
 
-/* Scrollbar personalizado */
 .dashboard-content::-webkit-scrollbar {
   width: 8px;
 }

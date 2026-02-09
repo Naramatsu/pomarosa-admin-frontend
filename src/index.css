@@ -52,7 +52,6 @@ a:hover {
 }
 
 button {
-  width: 100%;
   padding: 12px 16px;
   cursor: pointer;
   background: var(--bg-theme);
@@ -105,9 +104,13 @@ button:hover {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  gap: 10px;
+  gap: 12px;
+  flex-wrap: wrap;
 
   .form-control {
+    flex: 1;
+    min-width: 280px;
+
     &.loading {
       .spinner {
         position: absolute;
@@ -118,8 +121,14 @@ button:hover {
   }
 
   button {
-    width: 100px;
+    padding: 12px 16px;
     border-radius: 10px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    height: 45px;
   }
 }
 
@@ -152,44 +161,58 @@ button:hover {
 }
 
 .primary {
-  background: #0824d4;
+  background: linear-gradient(135deg, #0824d4 0%, #142487 100%);
   border-color: transparent;
   color: #fff;
+  transition: all 0.2s ease;
 
   &:hover {
     color: #fff;
-    background: #142487;
+    background: linear-gradient(135deg, #142487 0%, #0a1670 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(8, 36, 212, 0.24);
   }
 }
 
 .error {
-  background: #cf0000;
+  background: linear-gradient(135deg, #cf0000 0%, #a80000 100%);
   border-color: transparent;
   color: #fff;
+  transition: all 0.2s ease;
 
   &:hover {
     color: #fff;
-    background-color: #961515;
+    background: linear-gradient(135deg, #a80000 0%, #7d0000 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(207, 0, 0, 0.24);
   }
 }
 
 .success {
-  background: #07ab2e;
+  background: linear-gradient(135deg, #07ab2e 0%, #058222 100%);
   border-color: transparent;
+  color: #fff;
+  transition: all 0.2s ease;
 
   &:hover {
     color: #fff;
-    background-color: #126b28;
+    background: linear-gradient(135deg, #058222 0%, #034714 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(7, 171, 46, 0.24);
   }
 }
 
 .info {
-  background: #0824d4;
+  background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
   border-color: transparent;
+  color: #fff;
+  transition: all 0.2s ease;
 
   &:hover {
     color: #fff;
-    background-color: #111e73;
+    background: linear-gradient(135deg, #6d28d9 0%, #5521b5 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(139, 92, 246, 0.24);
   }
 }
 
@@ -215,18 +238,16 @@ button:hover {
   &.open {
     display: block;
     position: fixed;
-    margin-block: 30px;
     background: var(--bg-theme);
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-    width: 100%;
-    max-width: 500px;
+    width: 90%;
     border-radius: 10px;
     padding: 20px;
     height: auto;
     max-height: calc(100% - 60px);
-
     left: 50%;
-    transform: translateX(-50%);
+    top: 50%;
+    transform: translate(-50%, -50%);
     z-index: 101;
 
     display: flex;

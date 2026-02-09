@@ -11,6 +11,7 @@ export const useProducts = () => {
     findProductByIdService,
     updateProductService,
     productQuickFilterService,
+    productAdvanceFilterService,
     createProductService,
   } = ProductServices();
 
@@ -89,6 +90,24 @@ export const useProducts = () => {
       });
   };
 
+  const productsAdvancedFilter = async (params?: Record<string, unknown>) => {
+    setProducts({
+      ...products,
+      status: RequestStatus.LOADING,
+    });
+    const { data } = await productAdvanceFilterService(params);
+    if (data)
+      setProducts({
+        data,
+        status: RequestStatus.LOADED,
+      });
+    else
+      setProducts({
+        data: [],
+        status: RequestStatus.ERROR,
+      });
+  };
+
   const createProduct = async (params?: IUpdateProductRequest) => {
     setProduct({
       ...product,
@@ -120,6 +139,7 @@ export const useProducts = () => {
     findProductById,
     updateProduct,
     productsQuickfilter,
+    productsAdvancedFilter,
     createProduct,
   };
 };
