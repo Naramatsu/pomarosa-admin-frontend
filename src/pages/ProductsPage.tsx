@@ -6,7 +6,7 @@ import { BackArrow } from "../assets/icons";
 import { useNavigate } from "react-router-dom";
 import { Spinner } from "../components/Spinner";
 import { RequestStatus } from "../constants";
-import { Modal } from "../components/Modal";
+import { Modal } from "../layouts/Modal";
 import { AddProductForm } from "../components/AddProductForm";
 import AdvancedFilterForm from "../components/AdvancedFilterForm";
 import "../styles/product.style.css";
