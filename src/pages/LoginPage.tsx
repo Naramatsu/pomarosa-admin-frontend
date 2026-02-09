@@ -5,6 +5,7 @@ import { useStore } from "../store/globalState";
 import { jwtDecode } from "jwt-decode";
 import type { IUser } from "../interfaces/user";
 import { APP_ROUTES, RequestStatus } from "../constants";
+import "../styles/login.css";
 
 const loginFormInitialState = {
   user: "",
@@ -53,33 +54,48 @@ export const LoginPage = () => {
   };
 
   return (
-    <section className="login-page">
-      <h1>Iniciar sesión</h1>
-      <form onSubmit={onLogin} className="form-product column">
-        <section className="form-control">
-          <label>Usuario</label>
-          <input
-            type="text"
-            name="user"
-            onChange={handlerChange}
-            value={loginForm.user}
-          />
+    <section className="login-screen">
+      <section className="login-card">
+        <section className="login-left">
+          <img src="logo.webp" alt="pomarosa" className="login-logo" />
+          <h2>Bienvenido</h2>
+          <p className="muted">
+            Ingresa tus credenciales para acceder al panel administrativo
+          </p>
         </section>
 
-        <section className="form-control">
-          <label>Contraseña</label>
-          <input
-            type="password"
-            name="password"
-            onChange={handlerChange}
-            value={loginForm.password}
-          />
-        </section>
+        <section className="login-right">
+          <h3>Iniciar sesión</h3>
+          <form onSubmit={onLogin} className="login-form">
+            <section className="form-control">
+              <label>Usuario</label>
+              <input
+                type="text"
+                name="user"
+                onChange={handlerChange}
+                value={loginForm.user}
+                placeholder="tu usuario"
+                autoFocus
+              />
+            </section>
 
-        <button type="submit" className="info">
-          login
-        </button>
-      </form>
+            <section className="form-control">
+              <label>Contraseña</label>
+              <input
+                type="password"
+                name="password"
+                onChange={handlerChange}
+                value={loginForm.password}
+                placeholder="••••••••"
+              />
+            </section>
+
+            <button type="submit" className="btn primary full">
+              Entrar
+            </button>
+          </form>
+        </section>
+      </section>
     </section>
   );
 };
