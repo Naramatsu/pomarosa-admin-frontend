@@ -51,15 +51,6 @@ a:hover {
   padding: 0;
 }
 
-button {
-  padding: 12px 16px;
-  cursor: pointer;
-  background: var(--bg-theme);
-  color: var(--color-theme);
-  border: solid 1px;
-  font-size: 1rem;
-}
-
 button:hover {
   color: var(--bg-theme);
   background: var(--color-theme);

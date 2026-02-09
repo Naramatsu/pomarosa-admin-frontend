@@ -84,157 +84,184 @@ export const AdvancedFilterForm = ({
 
   return (
     <form className="advanced-filter-form" onSubmit={onSubmit}>
-      <div className="form-grid">
-        {/* Datos Básicos */}
-        <span className="form-section-title">📋 Datos básicos</span>
-        <div className="form-control">
-          <label>Codigo</label>
-          <input name="code" value={form.code} onChange={handleChange} />
+      <div className="filter-section">
+        <div className="filter-section-header">
+          <h3 className="filter-section-title">📋 Datos básicos</h3>
         </div>
+        <div className="filter-section-content">
+          <div className="form-control">
+            <label>Código</label>
+            <input name="code" value={form.code} onChange={handleChange} />
+          </div>
 
-        <div className="form-control">
-          <label>Nombre</label>
-          <input name="name" value={form.name} onChange={handleChange} />
+          <div className="form-control">
+            <label>Nombre</label>
+            <input name="name" value={form.name} onChange={handleChange} />
+          </div>
+
+          <div className="form-control">
+            <label>Descripción</label>
+            <input
+              name="description"
+              value={form.description}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="form-control">
+            <label>Area</label>
+            <select name="area" value={form.area} onChange={handleChange}>
+              <option value="">- Cualquiera -</option>
+              <option value="KITCHEN">Cocina</option>
+              <option value="BAKERY">Panadería</option>
+            </select>
+          </div>
+
+          <div className="form-control">
+            <label>Sección</label>
+            <input
+              name="section"
+              value={form.section}
+              onChange={handleChange}
+            />
+          </div>
         </div>
+      </div>
 
-        <div className="form-control">
-          <label>Descripción</label>
-          <input
-            name="description"
-            value={form.description}
-            onChange={handleChange}
-          />
+      <div className="filter-section">
+        <div className="filter-section-header">
+          <h3 className="filter-section-title">✅ Disponibilidad</h3>
         </div>
+        <div className="filter-section-content">
+          <div className="form-control">
+            <label>Horario</label>
+            <select
+              name="schedule"
+              value={form.schedule}
+              onChange={handleChange}
+            >
+              <option value="">- Cualquiera -</option>
+              <option value="ALL_DAY">Todo el día</option>
+              <option value="ONLY_DAY">Solo día</option>
+              <option value="ONLY_NIGHT">Solo noche</option>
+            </select>
+          </div>
 
-        <div className="form-control">
-          <label>Area</label>
-          <input name="area" value={form.area} onChange={handleChange} />
+          <div className="form-control">
+            <label>Disponible</label>
+            <select
+              name="isAvailable"
+              value={form.isAvailable}
+              onChange={handleChange}
+            >
+              <option value="">- Cualquiera -</option>
+              <option value="true">Si</option>
+              <option value="false">No</option>
+            </select>
+          </div>
         </div>
+      </div>
 
-        <div className="form-control">
-          <label>Sección</label>
-          <input name="section" value={form.section} onChange={handleChange} />
+      <div className="filter-section">
+        <div className="filter-section-header">
+          <h3 className="filter-section-title">💰 Precios</h3>
         </div>
+        <div className="filter-section-content prices-grid">
+          <div className="price-group">
+            <h4>Caliente</h4>
+            <div className="form-control">
+              <label>Desde</label>
+              <input
+                name="fromHotPrice"
+                type="number"
+                value={form.fromHotPrice}
+                onChange={handleChange}
+                placeholder="0"
+              />
+            </div>
+            <div className="form-control">
+              <label>Hasta</label>
+              <input
+                name="toHotPrice"
+                type="number"
+                value={form.toHotPrice}
+                onChange={handleChange}
+                placeholder="999"
+              />
+            </div>
+          </div>
 
-        <div style={{ gridColumn: "2 / 3" }} />
+          <div className="price-group">
+            <h4>Frío</h4>
+            <div className="form-control">
+              <label>Desde</label>
+              <input
+                name="fromColdPrice"
+                type="number"
+                value={form.fromColdPrice}
+                onChange={handleChange}
+                placeholder="0"
+              />
+            </div>
+            <div className="form-control">
+              <label>Hasta</label>
+              <input
+                name="toColdPrice"
+                type="number"
+                value={form.toColdPrice}
+                onChange={handleChange}
+                placeholder="999"
+              />
+            </div>
+          </div>
 
-        {/* Disponibilidad */}
-        <span className="form-section-title">✅ Disponibilidad</span>
-        <div className="form-control">
-          <label>Horario</label>
-          <select name="schedule" value={form.schedule} onChange={handleChange}>
-            <option value="">- Cualquiera -</option>
-            <option value="true">Solo día</option>
-            <option value="false">Solo noche</option>
-          </select>
-        </div>
+          <div className="price-group">
+            <h4>Personal</h4>
+            <div className="form-control">
+              <label>Desde</label>
+              <input
+                name="fromPersonal"
+                type="number"
+                value={form.fromPersonal}
+                onChange={handleChange}
+                placeholder="0"
+              />
+            </div>
+            <div className="form-control">
+              <label>Hasta</label>
+              <input
+                name="toPersonal"
+                type="number"
+                value={form.toPersonal}
+                onChange={handleChange}
+                placeholder="999"
+              />
+            </div>
+          </div>
 
-        <div className="form-control">
-          <label>Disponible</label>
-          <select
-            name="isAvailable"
-            value={form.isAvailable}
-            onChange={handleChange}
-          >
-            <option value="">- Cualquiera -</option>
-            <option value="true">Si</option>
-            <option value="false">No</option>
-          </select>
-        </div>
-
-        {/* Precios */}
-        <span className="form-section-title">💰 Precios</span>
-
-        {/* Precio caliente */}
-        <div className="form-control">
-          <label>Caliente desde</label>
-          <input
-            name="fromHotPrice"
-            type="number"
-            value={form.fromHotPrice}
-            onChange={handleChange}
-            placeholder="0"
-          />
-        </div>
-
-        <div className="form-control">
-          <label>Caliente hasta</label>
-          <input
-            name="toHotPrice"
-            type="number"
-            value={form.toHotPrice}
-            onChange={handleChange}
-            placeholder="999"
-          />
-        </div>
-
-        {/* Precio frio */}
-        <div className="form-control">
-          <label>Frio desde</label>
-          <input
-            name="fromColdPrice"
-            type="number"
-            value={form.fromColdPrice}
-            onChange={handleChange}
-            placeholder="0"
-          />
-        </div>
-
-        <div className="form-control">
-          <label>Frio hasta</label>
-          <input
-            name="toColdPrice"
-            type="number"
-            value={form.toColdPrice}
-            onChange={handleChange}
-            placeholder="999"
-          />
-        </div>
-
-        {/* Precio personal */}
-        <div className="form-control">
-          <label>Personal desde</label>
-          <input
-            name="fromPersonal"
-            type="number"
-            value={form.fromPersonal}
-            onChange={handleChange}
-            placeholder="0"
-          />
-        </div>
-
-        <div className="form-control">
-          <label>Personal hasta</label>
-          <input
-            name="toPersonal"
-            type="number"
-            value={form.toPersonal}
-            onChange={handleChange}
-            placeholder="999"
-          />
-        </div>
-
-        {/* Precio familiar */}
-        <div className="form-control">
-          <label>Familiar desde</label>
-          <input
-            name="fromFamiliar"
-            type="number"
-            value={form.fromFamiliar}
-            onChange={handleChange}
-            placeholder="0"
-          />
-        </div>
-
-        <div className="form-control">
-          <label>Familiar hasta</label>
-          <input
-            name="toFamiliar"
-            type="number"
-            value={form.toFamiliar}
-            onChange={handleChange}
-            placeholder="999"
-          />
+          <div className="price-group">
+            <h4>Familiar</h4>
+            <div className="form-control">
+              <label>Desde</label>
+              <input
+                name="fromFamiliar"
+                type="number"
+                value={form.fromFamiliar}
+                onChange={handleChange}
+                placeholder="0"
+              />
+            </div>
+            <div className="form-control">
+              <label>Hasta</label>
+              <input
+                name="toFamiliar"
+                type="number"
+                value={form.toFamiliar}
+                onChange={handleChange}
+                placeholder="999"
+              />
+            </div>
+          </div>
         </div>
       </div>
 

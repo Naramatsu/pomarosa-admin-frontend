@@ -226,29 +226,66 @@
   gap: 0;
 }
 
-.advanced-filter-form .form-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-  padding: 0;
-  margin: 0;
-}
-
-.advanced-filter-form .form-section {
+.advanced-filter-form .filter-section {
   display: flex;
   flex-direction: column;
   gap: 0;
-  grid-column: span 2;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 16px;
+  background: rgba(255, 255, 255, 0.01);
 }
 
-.advanced-filter-form .form-section-title {
-  font-size: 12px;
+.advanced-filter-form .filter-section:last-of-type {
+  margin-bottom: 0;
+}
+
+.advanced-filter-form .filter-section-header {
+  padding: 14px 16px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 107, 107, 0.08) 0%,
+    transparent 100%
+  );
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.advanced-filter-form .filter-section-title {
+  margin: 0;
+  font-size: 13px;
   font-weight: 600;
   text-transform: uppercase;
-  color: rgba(255, 107, 107, 0.8);
+  color: rgba(255, 107, 107, 0.9);
+  letter-spacing: 0.6px;
+}
+
+.advanced-filter-form .filter-section-content {
+  padding: 16px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.advanced-filter-form .filter-section-content.prices-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.advanced-filter-form .price-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.advanced-filter-form .price-group h4 {
+  margin: 0 0 6px 0;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: rgba(255, 107, 107, 0.7);
   letter-spacing: 0.5px;
-  margin-bottom: 14px;
-  display: block;
 }
 
 .advanced-filter-form .form-control {
@@ -263,6 +300,7 @@
   font-weight: 500;
   color: rgba(255, 255, 255, 0.8);
   text-transform: capitalize;
+  letter-spacing: 0.3px;
 }
 
 .advanced-filter-form input,
@@ -277,6 +315,10 @@
   outline: none;
 }
 
+.advanced-filter-form input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
 .advanced-filter-form input:focus,
 .advanced-filter-form select:focus {
   border-color: rgba(255, 107, 107, 0.3);
@@ -285,6 +327,8 @@
 }
 
 .advanced-filter-form .form-actions {
+  position: sticky;
+  bottom: 0;
   margin-top: 22px;
   padding-top: 18px;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
@@ -292,6 +336,7 @@
   gap: 10px;
   align-items: center;
   justify-content: flex-end;
+  background-color: var(--bg-theme);
 }
 
 .advanced-filter-form button {
@@ -302,6 +347,7 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
+  height: 45px;
 }
 
 .advanced-filter-form button:not(.primary) {
@@ -313,15 +359,23 @@
 .advanced-filter-form button:not(.primary):hover {
   background: rgba(255, 255, 255, 0.08);
   border-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-1px);
 }
 
-@media (max-width: 720px) {
-  .advanced-filter-form .form-grid {
+@media (max-width: 900px) {
+  .advanced-filter-form .filter-section-content {
     grid-template-columns: 1fr;
   }
 
-  .advanced-filter-form .form-section {
-    grid-column: span 1;
+  .advanced-filter-form .filter-section-content.prices-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .advanced-filter-form .filter-section-content,
+  .advanced-filter-form .filter-section-content.prices-grid {
+    grid-template-columns: 1fr;
   }
 }
 
