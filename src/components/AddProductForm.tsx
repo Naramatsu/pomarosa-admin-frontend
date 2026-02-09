@@ -4,6 +4,11 @@ import type {
   IUpdateProductRequest,
 } from "../interfaces/product";
 import { useProducts } from "../hooks/useProducts";
+import { AREAS_ITEMS, SCHEDULE_ITEMS, ToasTypes } from "../constants";
+import { useStore } from "../store/globalState";
+import { Input } from "./Input";
+import { Select } from "./Select";
+import { FilterSection } from "./FilterSection";
 
 interface IProductForm {
   nameSpanish: string;
@@ -38,10 +43,11 @@ const productFormInitialState: IProductForm = {
 };
 
 export const AddProductForm = () => {
+  const { setToast } = useStore();
   const [productForm, setProductForm] = useState(productFormInitialState);
   const { createProduct } = useProducts();
 
-  const inputs = useMemo(
+  const basicInputs = useMemo(
     () => [
       {
         label: "Nombre en español",
@@ -69,6 +75,11 @@ export const AddProductForm = () => {
         value: productForm?.descriptionEnglish,
         type: "text",
       },
+    ],
+    [productForm],
+  );
+  const adminInputs = useMemo(
+    () => [
       {
         label: "Código",
         name: "code",
@@ -83,6 +94,12 @@ export const AddProductForm = () => {
         type: "text",
         isRequired: true,
       },
+    ],
+    [productForm],
+  );
+
+  const priceInputs = useMemo(
+    () => [
       {
         label: "Precio caliente",
         name: "hotPrice",
@@ -111,7 +128,9 @@ export const AddProductForm = () => {
     [productForm],
   );
 
-  const handlerChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handlerChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
     const { name, value } = event.currentTarget;
     setProductForm({
       ...productForm,
@@ -119,15 +138,8 @@ export const AddProductForm = () => {
     });
   };
 
-  const handlerSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const { name, value } = event.currentTarget;
-    setProductForm({
-      ...productForm,
-      [name]: value,
-    });
-  };
-
-  const onSubmit = async () => {
+  const onSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
     const params: IProductForm = { ...productForm };
     for (const key in params) {
       if (!params[key as keyof typeof params])
@@ -168,58 +180,77 @@ export const AddProductForm = () => {
         familiar: parseFloat(params.familiar.toString()),
       }),
     };
-    const result = await createProduct(newProduct as IUpdateProductRequest);
-    console.log({ params, result });
+    await createProduct(newProduct as IUpdateProductRequest);
+    setToast({
+      type: ToasTypes.SUCCESS,
+      visible: true,
+      value: "Producto creado exitosamente",
+    });
   };
+
   return (
-    <form className="form-product">
-      {inputs.map(({ label, name, value, isRequired }) => (
-        <section key={`${label}-${name}`} className="form-control">
-          <label>{label}</label>
-          <input
+    <form className="advanced-filter-form" onSubmit={onSubmit}>
+      <FilterSection title="Datos básicos">
+        {basicInputs.map(({ label, name, value, isRequired }) => (
+          <Input
+            key={name}
+            label={label}
             name={name}
-            required={isRequired}
-            onChange={handlerChange}
             value={value}
+            placeholder={label}
+            onChange={handlerChange}
+            isRequired={isRequired}
           />
-        </section>
-      ))}
-      <section className="form-control">
-        <label>Area:</label>
-        <select
+        ))}
+      </FilterSection>
+
+      <FilterSection title="Precios">
+        {priceInputs.map(({ label, name, value }) => (
+          <Input
+            key={name}
+            type="number"
+            label={label}
+            name={name}
+            value={value}
+            placeholder="0"
+            onChange={handlerChange}
+          />
+        ))}
+      </FilterSection>
+
+      <FilterSection title="Datos administrativos">
+        {adminInputs.map(({ label, name, value, isRequired }) => (
+          <Input
+            key={name}
+            label={label}
+            name={name}
+            value={value}
+            placeholder={label}
+            onChange={handlerChange}
+            isRequired={isRequired}
+          />
+        ))}
+        <Select
+          label="area"
           name="area"
-          defaultValue={productForm.area}
-          onChange={handlerSelect}
-        >
-          <option key="KITCHEN" value="KITCHEN">
-            Cocina
-          </option>
-          <option key="BAKERY" value="BAKERY">
-            Panadería
-          </option>
-        </select>
-      </section>
-      <section className="form-control">
-        <label>Horario:</label>
-        <select
+          value={productForm.area}
+          onChange={handlerChange}
+          items={AREAS_ITEMS}
+        />
+        <Select
+          label="Horario"
           name="schedule"
-          defaultValue={productForm.schedule}
-          onChange={handlerSelect}
-        >
-          <option key="ALL_DAY" value="ALL_DAY">
-            Todo el día
-          </option>
-          <option key="ONLY_DAY" value="ONLY_DAY">
-            Solo en el día
-          </option>
-          <option key="ONLY_NIGHT" value="ONLY_NIGHT">
-            Solo en la noche
-          </option>
-        </select>
-      </section>
-      <button type="button" onClick={onSubmit} className="primary">
-        Crear producto
-      </button>
+          value={productForm.schedule}
+          onChange={handlerChange}
+          items={SCHEDULE_ITEMS}
+        />
+      </FilterSection>
+
+      <div className="form-actions">
+        <button type="submit" className="primary">
+          Crear producto
+        </button>
+      </div>
     </form>
   );
 };

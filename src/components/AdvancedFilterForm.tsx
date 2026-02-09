@@ -1,4 +1,8 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
+import { AREAS_ITEMS, SCHEDULE_ITEMS } from "../constants";
+import { FilterSection } from "./FilterSection";
+import { Input } from "./Input";
+import { Select } from "./Select";
 
 interface AdvancedFilterProps {
   onApply: (params: Record<string, unknown>) => void;
@@ -48,9 +52,9 @@ export const AdvancedFilterForm = ({
   const [form, setForm] = useState<AdvancedFilterState>(initialState);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
-    const { name, value } = e.currentTarget;
+    const { name, value } = event.currentTarget;
     setForm({ ...form, [name]: value } as AdvancedFilterState);
   };
 
@@ -71,8 +75,8 @@ export const AdvancedFilterForm = ({
     return params;
   };
 
-  const onSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const onSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
     const params = buildParams();
     onApply(params);
     if (onClose) onClose();
@@ -82,188 +86,170 @@ export const AdvancedFilterForm = ({
     setForm(initialState);
   };
 
+  const basicDataFilds = useMemo(
+    () => [
+      {
+        label: "Código",
+        name: "code",
+        value: form.code,
+      },
+      {
+        label: "Nombre",
+        name: "name",
+        value: form.name,
+      },
+      {
+        label: "Descripción",
+        name: "description",
+        value: form.description,
+      },
+      {
+        label: "Sección",
+        name: "section",
+        value: form.section,
+      },
+    ],
+    [form.code, form.name, form.description, form.section],
+  );
+
+  const priceFilds = useMemo(
+    () => [
+      {
+        title: "Caliente",
+        inputs: [
+          {
+            label: "Desde",
+            name: "fromHotPrice",
+            value: form.fromHotPrice,
+          },
+          {
+            label: "Hasta",
+            name: "toHotPrice",
+            value: form.toHotPrice,
+          },
+        ],
+      },
+      {
+        title: "Frio",
+        inputs: [
+          {
+            label: "Desde",
+            name: "fromColdPrice",
+            value: form.fromColdPrice,
+          },
+          {
+            label: "Hasta",
+            name: "toColdPrice",
+            value: form.toColdPrice,
+          },
+        ],
+      },
+      {
+        title: "Personal",
+        inputs: [
+          {
+            label: "Desde",
+            name: "fromPersonal",
+            value: form.fromPersonal,
+          },
+          {
+            label: "Hasta",
+            name: "toPersonal",
+            value: form.toPersonal,
+          },
+        ],
+      },
+      {
+        title: "Familiar",
+        inputs: [
+          {
+            label: "Desde",
+            name: "fromFamiliar",
+            value: form.fromFamiliar,
+          },
+          {
+            label: "Hasta",
+            name: "toFamiliar",
+            value: form.toFamiliar,
+          },
+        ],
+      },
+    ],
+    [
+      form.fromHotPrice,
+      form.toHotPrice,
+      form.fromColdPrice,
+      form.toColdPrice,
+      form.fromPersonal,
+      form.toPersonal,
+      form.fromFamiliar,
+      form.toFamiliar,
+    ],
+  );
+
   return (
     <form className="advanced-filter-form" onSubmit={onSubmit}>
-      <div className="filter-section">
-        <div className="filter-section-header">
-          <h3 className="filter-section-title">📋 Datos básicos</h3>
-        </div>
-        <div className="filter-section-content">
-          <div className="form-control">
-            <label>Código</label>
-            <input name="code" value={form.code} onChange={handleChange} />
-          </div>
+      <FilterSection title="Datos básicos">
+        {basicDataFilds.map(({ label, name, value }) => (
+          <Input
+            key={name}
+            label={label}
+            name={name}
+            value={value}
+            placeholder={label}
+            onChange={handleChange}
+          />
+        ))}
+      </FilterSection>
 
-          <div className="form-control">
-            <label>Nombre</label>
-            <input name="name" value={form.name} onChange={handleChange} />
-          </div>
+      <FilterSection title="Datos administrativos">
+        <Select
+          label="area"
+          name="area"
+          value={form.area}
+          onChange={handleChange}
+          items={AREAS_ITEMS}
+          itemDefault
+        />
+        <Select
+          label="Horario"
+          name="schedule"
+          value={form.schedule}
+          onChange={handleChange}
+          items={SCHEDULE_ITEMS}
+          itemDefault
+        />
+        <Select
+          label="Disponible"
+          name="isAvailable"
+          value={form.isAvailable}
+          onChange={handleChange}
+          items={[
+            { value: "true", label: "Sí" },
+            { value: "false", label: "No" },
+          ]}
+          itemDefault
+        />
+      </FilterSection>
 
-          <div className="form-control">
-            <label>Descripción</label>
-            <input
-              name="description"
-              value={form.description}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className="form-control">
-            <label>Area</label>
-            <select name="area" value={form.area} onChange={handleChange}>
-              <option value="">- Cualquiera -</option>
-              <option value="KITCHEN">Cocina</option>
-              <option value="BAKERY">Panadería</option>
-            </select>
-          </div>
-
-          <div className="form-control">
-            <label>Sección</label>
-            <input
-              name="section"
-              value={form.section}
-              onChange={handleChange}
-            />
-          </div>
-        </div>
-      </div>
-
-      <div className="filter-section">
-        <div className="filter-section-header">
-          <h3 className="filter-section-title">✅ Disponibilidad</h3>
-        </div>
-        <div className="filter-section-content">
-          <div className="form-control">
-            <label>Horario</label>
-            <select
-              name="schedule"
-              value={form.schedule}
-              onChange={handleChange}
-            >
-              <option value="">- Cualquiera -</option>
-              <option value="ALL_DAY">Todo el día</option>
-              <option value="ONLY_DAY">Solo día</option>
-              <option value="ONLY_NIGHT">Solo noche</option>
-            </select>
-          </div>
-
-          <div className="form-control">
-            <label>Disponible</label>
-            <select
-              name="isAvailable"
-              value={form.isAvailable}
-              onChange={handleChange}
-            >
-              <option value="">- Cualquiera -</option>
-              <option value="true">Si</option>
-              <option value="false">No</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
-      <div className="filter-section">
-        <div className="filter-section-header">
-          <h3 className="filter-section-title">💰 Precios</h3>
-        </div>
-        <div className="filter-section-content prices-grid">
-          <div className="price-group">
-            <h4>Caliente</h4>
-            <div className="form-control">
-              <label>Desde</label>
-              <input
-                name="fromHotPrice"
+      <FilterSection title="Precios" isGrid>
+        {priceFilds.map(({ title, inputs }) => (
+          <div key={title} className="price-group">
+            <h4>{title}</h4>
+            {inputs.map(({ label, name, value }) => (
+              <Input
+                key={name}
                 type="number"
-                value={form.fromHotPrice}
+                label={label}
+                name={name}
+                value={value}
+                placeholder={label}
                 onChange={handleChange}
-                placeholder="0"
               />
-            </div>
-            <div className="form-control">
-              <label>Hasta</label>
-              <input
-                name="toHotPrice"
-                type="number"
-                value={form.toHotPrice}
-                onChange={handleChange}
-                placeholder="999"
-              />
-            </div>
+            ))}
           </div>
-
-          <div className="price-group">
-            <h4>Frío</h4>
-            <div className="form-control">
-              <label>Desde</label>
-              <input
-                name="fromColdPrice"
-                type="number"
-                value={form.fromColdPrice}
-                onChange={handleChange}
-                placeholder="0"
-              />
-            </div>
-            <div className="form-control">
-              <label>Hasta</label>
-              <input
-                name="toColdPrice"
-                type="number"
-                value={form.toColdPrice}
-                onChange={handleChange}
-                placeholder="999"
-              />
-            </div>
-          </div>
-
-          <div className="price-group">
-            <h4>Personal</h4>
-            <div className="form-control">
-              <label>Desde</label>
-              <input
-                name="fromPersonal"
-                type="number"
-                value={form.fromPersonal}
-                onChange={handleChange}
-                placeholder="0"
-              />
-            </div>
-            <div className="form-control">
-              <label>Hasta</label>
-              <input
-                name="toPersonal"
-                type="number"
-                value={form.toPersonal}
-                onChange={handleChange}
-                placeholder="999"
-              />
-            </div>
-          </div>
-
-          <div className="price-group">
-            <h4>Familiar</h4>
-            <div className="form-control">
-              <label>Desde</label>
-              <input
-                name="fromFamiliar"
-                type="number"
-                value={form.fromFamiliar}
-                onChange={handleChange}
-                placeholder="0"
-              />
-            </div>
-            <div className="form-control">
-              <label>Hasta</label>
-              <input
-                name="toFamiliar"
-                type="number"
-                value={form.toFamiliar}
-                onChange={handleChange}
-                placeholder="999"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
+        ))}
+      </FilterSection>
 
       <div className="form-actions">
         <button type="button" onClick={onClear}>
