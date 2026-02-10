@@ -75,3 +75,20 @@ export interface IUpdateProductRequest {
   schedule?: string;
   isAvailable?: boolean;
 }
+
+export interface IProductForm {
+  nameSpanish: string;
+  nameEnglish: string;
+  descriptionSpanish: string;
+  descriptionEnglish: string;
+  code: string;
+  hotPrice: string | number;
+  coldPrice: string | number;
+  personal: string | number;
+  familiar: string | number;
+  img: string;
+  area: string;
+  section: string;
+  schedule: string;
+  isAvailable?: string;
+}

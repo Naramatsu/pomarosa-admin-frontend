@@ -6,7 +6,7 @@ export interface IItems {
 export interface SelectProps {
   label?: string;
   name: string;
-  value: string;
+  value: string | number;
   items: IItems[];
   itemDefault?: boolean;
   isRequired?: boolean;

@@ -1,3 +1,5 @@
+import type { IProductForm } from "../interfaces/product";
+
 export enum RequestStatus {
   NOT_LOADED,
   LOADING,
@@ -71,3 +73,19 @@ export const SCHEDULE_ITEMS = [
     label: SCHEDULE.ONLY_NIGHT.label,
   },
 ];
+
+export const productFormInitialState: IProductForm = {
+  nameSpanish: "",
+  nameEnglish: "",
+  descriptionSpanish: "",
+  descriptionEnglish: "",
+  code: "",
+  hotPrice: "",
+  coldPrice: "",
+  personal: "",
+  familiar: "",
+  img: "",
+  area: "KITCHEN",
+  section: "",
+  schedule: "ALL_DAY",
+};

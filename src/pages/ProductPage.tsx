@@ -5,6 +5,10 @@ import { useProducts } from "../hooks/useProducts";
 import type { IUpdateProductRequest } from "../interfaces/product";
 import { BackArrow } from "../assets/icons";
 import { APP_ROUTES, ToasTypes } from "../constants";
+import { FilterSection } from "../components/FilterSection";
+import { Input } from "../components/Input";
+import { Select } from "../components/Select";
+import { AREAS_ITEMS, SCHEDULE_ITEMS } from "../constants";
 
 /* img: optional.string */
 
@@ -28,19 +32,18 @@ export const ProductPage = () => {
 
   if (!product.data) navigate(APP_ROUTES.HOME);
   const productInfo = useMemo(() => product.data, [product.data]);
-  const inputs = useMemo(
+
+  const basicDataFields = useMemo(
     () => [
       {
         label: "Nombre en español",
         name: "nameSpanish",
         value: productForm?.nameSpanish || productInfo?.name.SPANISH || "",
-        type: "text",
       },
       {
         label: "Nombre en ingles",
         name: "nameEnglish",
         value: productForm?.nameEnglish || productInfo?.name.ENGLISH || "",
-        type: "text",
       },
       {
         label: "Descripción en español",
@@ -49,7 +52,6 @@ export const ProductPage = () => {
           productForm?.descriptionSpanish ||
           productInfo?.description?.SPANISH ||
           "",
-        type: "text",
       },
       {
         label: "Descripción en ingles",
@@ -58,8 +60,18 @@ export const ProductPage = () => {
           productForm?.descriptionEnglish ||
           productInfo?.description?.ENGLISH ||
           "",
-        type: "text",
       },
+      {
+        label: "Sección en el menú",
+        name: "section",
+        value: productForm?.section || productInfo?.section || "",
+      },
+    ],
+    [productInfo, productForm],
+  );
+
+  const priceFields = useMemo(
+    () => [
       {
         label: "Precio caliente",
         name: "hotPrice",
@@ -84,41 +96,26 @@ export const ProductPage = () => {
         value: productForm?.familiar || productInfo?.familiar || "",
         type: "number",
       },
-      {
-        label: "Sección en el menú",
-        name: "section",
-        value: productForm?.section || productInfo?.section || "",
-        type: "text",
-      },
     ],
     [productInfo, productForm],
   );
 
-  const handlerChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
     const { name, value } = event.currentTarget;
-    if (!value) delete productForm[name as string];
-
-    setProductForm({
-      ...productForm,
-      [name]: value,
-    });
+    if (!value) {
+      delete productForm[name as string];
+    } else {
+      setProductForm({
+        ...productForm,
+        [name]: value,
+      });
+    }
   };
 
-  const handlerSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const { name, value } = event.currentTarget;
-    if (!value) delete productForm[name as string];
-
-    setProductForm({
-      ...productForm,
-      [name]: value,
-    });
-  };
-
-  const onHandlerAvailable = () => {
-    setIsAvailable(!isAvailable);
-  };
-
-  const onSubmit = async () => {
+  const onSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
     const params = {
       ...productForm,
       isAvailable,
@@ -145,65 +142,90 @@ export const ProductPage = () => {
     }
   };
 
+  const onClear = () => {
+    setProductForm({});
+  };
+
   return (
-    <section className="product-page">
+    <section className="products-section">
       <section className="page-header">
-        <BackArrow colors="#fff" onClick={() => navigate(-1)} />
-        <h1>Actualizar producto</h1>
-      </section>
-      <form className="form-product">
-        {inputs.map(({ label, name, value }) => (
-          <section key={`${label}-${name}`} className="form-control">
-            <label>{label}</label>
-            <input name={name} onChange={handlerChange} value={value} />
-          </section>
-        ))}
-        <section className="form-control">
-          <label>Area:</label>
-          <select
-            name="area"
-            defaultValue={productInfo?.area}
-            onChange={handlerSelect}
-          >
-            <option key="KITCHEN" value="KITCHEN">
-              Cocina
-            </option>
-            <option key="BAKERY" value="BAKERY">
-              Panadería
-            </option>
-          </select>
-        </section>
-        <section className="form-control">
-          <label>Horario:</label>
-          <select
-            name="schedule"
-            defaultValue={productInfo?.schedule}
-            onChange={handlerSelect}
-          >
-            <option key="ALL_DAY" value="ALL_DAY">
-              Todo el día
-            </option>
-            <option key="ONLY_DAY" value="ONLY_DAY">
-              Solo en el día
-            </option>
-            <option key="ONLY_NIGHT" value="ONLY_NIGHT">
-              Solo en la noche
-            </option>
-          </select>
-        </section>
-        <section className="form-control checkbox">
-          <input
-            id="isAvailable"
-            type="checkbox"
-            name="isAvailable"
-            defaultChecked={isAvailable}
-            onChange={onHandlerAvailable}
-          />
-          <label htmlFor="isAvailable">¿Está disponible?</label>
-        </section>
-        <button type="button" onClick={onSubmit} className="primary">
-          Actualizar producto
+        <button
+          className="back-button"
+          onClick={() => navigate(-1)}
+          aria-label="Volver"
+        >
+          <BackArrow colors="#fff" />
         </button>
+        <div className="page-title-wrapper">
+          <h1>Actualizar productos</h1>
+        </div>
+      </section>
+      <form className="advanced-filter-form" onSubmit={onSubmit}>
+        <FilterSection title="Datos básicos">
+          {basicDataFields.map(({ label, name, value }) => (
+            <Input
+              key={name}
+              label={label}
+              name={name}
+              value={value}
+              placeholder={label}
+              onChange={handleChange}
+            />
+          ))}
+        </FilterSection>
+
+        <FilterSection title="Datos administrativos">
+          <Select
+            label="Area"
+            name="area"
+            value={productForm.area || productInfo?.area || ""}
+            onChange={handleChange}
+            items={AREAS_ITEMS}
+          />
+          <Select
+            label="Horario"
+            name="schedule"
+            value={productForm.schedule || productInfo?.schedule || ""}
+            onChange={handleChange}
+            items={SCHEDULE_ITEMS}
+          />
+          <Select
+            label="Disponible"
+            name="isAvailable"
+            value={isAvailable ? "true" : "false"}
+            onChange={(e) => {
+              setIsAvailable(e.currentTarget.value === "true");
+            }}
+            items={[
+              { value: "true", label: "Sí" },
+              { value: "false", label: "No" },
+            ]}
+            itemDefault
+          />
+        </FilterSection>
+
+        <FilterSection title="Precios">
+          {priceFields.map(({ label, name, value, type }) => (
+            <Input
+              key={name}
+              type={type}
+              label={label}
+              name={name}
+              value={value}
+              placeholder={label}
+              onChange={handleChange}
+            />
+          ))}
+        </FilterSection>
+
+        <div className="form-actions" style={{ paddingBottom: "16px" }}>
+          <button type="button" onClick={onClear}>
+            Limpiar
+          </button>
+          <button type="submit" className="primary">
+            Actualizar producto
+          </button>
+        </div>
       </form>
     </section>
   );

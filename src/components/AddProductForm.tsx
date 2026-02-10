@@ -1,46 +1,20 @@
 import { useMemo, useState } from "react";
 import type {
   INameDescripction,
+  IProductForm,
   IUpdateProductRequest,
 } from "../interfaces/product";
 import { useProducts } from "../hooks/useProducts";
-import { AREAS_ITEMS, SCHEDULE_ITEMS, ToasTypes } from "../constants";
+import {
+  AREAS_ITEMS,
+  productFormInitialState,
+  SCHEDULE_ITEMS,
+  ToasTypes,
+} from "../constants";
 import { useStore } from "../store/globalState";
 import { Input } from "./Input";
 import { Select } from "./Select";
 import { FilterSection } from "./FilterSection";
-
-interface IProductForm {
-  nameSpanish: string;
-  nameEnglish: string;
-  descriptionSpanish: string;
-  descriptionEnglish: string;
-  code: string;
-  hotPrice: string | number;
-  coldPrice: string | number;
-  personal: string | number;
-  familiar: string | number;
-  img: string;
-  area: string;
-  section: string;
-  schedule: string;
-}
-
-const productFormInitialState: IProductForm = {
-  nameSpanish: "",
-  nameEnglish: "",
-  descriptionSpanish: "",
-  descriptionEnglish: "",
-  code: "",
-  hotPrice: "",
-  coldPrice: "",
-  personal: "",
-  familiar: "",
-  img: "",
-  area: "KITCHEN",
-  section: "",
-  schedule: "ALL_DAY",
-};
 
 export const AddProductForm = () => {
   const { setToast } = useStore();

@@ -39,11 +39,6 @@ a:hover {
   a:hover {
     color: #747bff;
   }
-
-  .product-item {
-    background: #242424;
-    color: #f9f9f9;
-  }
 }
 
 .page {
@@ -59,29 +54,6 @@ button:hover {
 .home-page {
   width: 100%;
   text-align: center;
-}
-
-.product-page {
-  width: 100%;
-  padding-right: 20px;
-}
-
-.page-header {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 20px;
-  position: sticky;
-  top: 0;
-  background: var(--bg-theme);
-  z-index: 2;
-  padding-block: 20px;
-  border-bottom: solid 1px;
-
-  svg {
-    cursor: pointer;
-  }
 }
 
 .search-section-container {

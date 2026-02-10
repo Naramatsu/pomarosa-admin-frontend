@@ -3,6 +3,7 @@ import { AREAS_ITEMS, SCHEDULE_ITEMS } from "../constants";
 import { FilterSection } from "./FilterSection";
 import { Input } from "./Input";
 import { Select } from "./Select";
+import { buildParams } from "../utils";
 
 interface AdvancedFilterProps {
   onApply: (params: Record<string, unknown>) => void;
@@ -58,26 +59,9 @@ export const AdvancedFilterForm = ({
     setForm({ ...form, [name]: value } as AdvancedFilterState);
   };
 
-  const buildParams = () => {
-    const params: Record<string, unknown> = {};
-    Object.entries(form).forEach(([k, v]) => {
-      if (v === "" || v === undefined || v === null) return;
-      if (k === "isAvailable" || k === "schedule") {
-        if (v === "true") params[k] = true;
-        else if (v === "false") params[k] = false;
-      } else if (k.startsWith("from") || k.startsWith("to")) {
-        const num = Number(v);
-        if (!Number.isNaN(num)) params[k] = num;
-      } else {
-        params[k] = v;
-      }
-    });
-    return params;
-  };
-
   const onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    const params = buildParams();
+    const params = buildParams(form);
     onApply(params);
     if (onClose) onClose();
   };
