@@ -59,7 +59,7 @@ export const ProductItem: React.FC<{ product: IProduct }> = ({ product }) => {
         {availablePrices.length > 0 && (
           <div className="prices-grid">
             {availablePrices.map((price) => (
-              <div key={price.label} className="price-item">
+              <div key={price.label} className={`price-item ${price.label}`}>
                 <span className="price-item-label">{price.label}</span>
                 <span className="price-item-value">
                   {currencyFormatter.format(price.value as number)}

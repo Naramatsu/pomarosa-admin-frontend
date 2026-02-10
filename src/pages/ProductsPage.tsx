@@ -2,13 +2,12 @@ import { memo, useEffect, useMemo, useState } from "react";
 import { ProductItem } from "../components/ProductItem";
 import { useProducts } from "../hooks/useProducts";
 import { useStore } from "../store/globalState";
-import { BackArrow } from "../assets/icons";
-import { useNavigate } from "react-router-dom";
 import { Spinner } from "../components/Spinner";
 import { RequestStatus } from "../constants";
 import { Modal } from "../layouts/Modal";
 import { AddProductForm } from "../components/AddProductForm";
 import AdvancedFilterForm from "../components/AdvancedFilterForm";
+import { Header } from "../components/Header";
 import "../styles/product.style.css";
 
 export const ProductsPage = memo(() => {
@@ -20,8 +19,6 @@ export const ProductsPage = memo(() => {
   const [isTypeLoading, setIsTypeLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showFilterModal, setShowFilterModal] = useState(false);
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (filterInput.length < 3) {
@@ -58,21 +55,10 @@ export const ProductsPage = memo(() => {
 
   return (
     <section className="products-section">
-      <section className="page-header">
-        <button
-          className="back-button"
-          onClick={() => navigate(-1)}
-          aria-label="Volver"
-        >
-          <BackArrow colors="#fff" />
-        </button>
-        <div className="page-title-wrapper">
-          <h1>Listado de productos</h1>
-          <p className="page-subtitle">
-            {isLoading ? "Cargando..." : `${productList.length} productos`}
-          </p>
-        </div>
-      </section>
+      <Header
+        title="Listado de productos"
+        subtitle={isLoading ? "Cargando..." : `${productList.length} productos`}
+      />
 
       <section className="search-section-container">
         <section className="search-section">

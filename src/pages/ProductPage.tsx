@@ -5,7 +5,7 @@ import { useProducts } from "../hooks/useProducts";
 import type { IUpdateProductRequest } from "../interfaces/product";
 import { BackArrow } from "../assets/icons";
 import { APP_ROUTES, ToasTypes } from "../constants";
-import { FilterSection } from "../components/FilterSection";
+import { FilterSection } from "../layouts/FilterSection";
 import { Input } from "../components/Input";
 import { Select } from "../components/Select";
 import { AREAS_ITEMS, SCHEDULE_ITEMS } from "../constants";
@@ -200,7 +200,6 @@ export const ProductPage = () => {
               { value: "true", label: "Sí" },
               { value: "false", label: "No" },
             ]}
-            itemDefault
           />
         </FilterSection>
 

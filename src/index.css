@@ -8,6 +8,12 @@
   --bg-theme: #252525;
   --color-theme: rgba(255, 255, 255, 1);
 
+  --brown: 141, 83, 61;
+  --brown-off: rgba(141, 83, 61, 0.7);
+  --dark-brown: 64, 37, 27;
+  --green: 119, 175, 170;
+  --beige: 238, 219, 216;
+
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -32,10 +38,10 @@ a:hover {
 }
 
 @media (prefers-color-scheme: light) {
-  :root {
+  /* :root {
     --bg-theme: "#fff";
     --color-theme: "#213547";
-  }
+  } */
   a:hover {
     color: #747bff;
   }

@@ -6,6 +6,7 @@ import { jwtDecode } from "jwt-decode";
 import type { IUser } from "../interfaces/user";
 import { APP_ROUTES, RequestStatus } from "../constants";
 import "../styles/login.css";
+import { Input } from "../components/Input";
 
 const loginFormInitialState = {
   user: "",
@@ -25,7 +26,9 @@ export const LoginPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handlerChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handlerChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
     const { name, value } = event.currentTarget;
     setLoginForm({
       ...loginForm,
@@ -67,28 +70,21 @@ export const LoginPage = () => {
         <section className="login-right">
           <h3>Iniciar sesión</h3>
           <form onSubmit={onLogin} className="login-form">
-            <section className="form-control">
-              <label>Usuario</label>
-              <input
-                type="text"
-                name="user"
-                onChange={handlerChange}
-                value={loginForm.user}
-                placeholder="tu usuario"
-                autoFocus
-              />
-            </section>
-
-            <section className="form-control">
-              <label>Contraseña</label>
-              <input
-                type="password"
-                name="password"
-                onChange={handlerChange}
-                value={loginForm.password}
-                placeholder="••••••••"
-              />
-            </section>
+            <Input
+              label="Usuario"
+              name="user"
+              onChange={handlerChange}
+              value={loginForm.user}
+              placeholder="tu usuario"
+            />
+            <Input
+              label="Contraseña"
+              name="password"
+              type="password"
+              onChange={handlerChange}
+              value={loginForm.password}
+              placeholder="••••••••"
+            />
 
             <button type="submit" className="btn primary full">
               Entrar

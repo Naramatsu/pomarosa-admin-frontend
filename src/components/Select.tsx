@@ -4,6 +4,7 @@ export interface IItems {
 }
 
 export interface SelectProps {
+  id?: string;
   label?: string;
   name: string;
   value: string | number;
@@ -16,6 +17,7 @@ export interface SelectProps {
 }
 
 export const Select: React.FC<SelectProps> = ({
+  id,
   label,
   name,
   value,
@@ -26,7 +28,13 @@ export const Select: React.FC<SelectProps> = ({
 }) => (
   <div className="form-control">
     {label && <label>{label}</label>}
-    <select name={name} value={value} required={isRequired} onChange={onChange}>
+    <select
+      id={id}
+      name={name}
+      value={value}
+      required={isRequired}
+      onChange={onChange}
+    >
       {itemDefault && <option value="">- Cualquiera -</option>}
       {items.map(({ value, label }) => (
         <option key={value} value={value}>

@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { AREAS_ITEMS, SCHEDULE_ITEMS } from "../constants";
-import { FilterSection } from "./FilterSection";
+import { FilterSection } from "../layouts/FilterSection";
 import { Input } from "./Input";
 import { Select } from "./Select";
 import { buildParams } from "../utils";

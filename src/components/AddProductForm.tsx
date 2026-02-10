@@ -14,7 +14,7 @@ import {
 import { useStore } from "../store/globalState";
 import { Input } from "./Input";
 import { Select } from "./Select";
-import { FilterSection } from "./FilterSection";
+import { FilterSection } from "../layouts/FilterSection";
 
 export const AddProductForm = () => {
   const { setToast } = useStore();

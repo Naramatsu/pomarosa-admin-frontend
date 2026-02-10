@@ -1,4 +1,5 @@
 export interface InputProps {
+  id?: string;
   type?: string;
   label?: string;
   name: string;
@@ -11,6 +12,7 @@ export interface InputProps {
 }
 
 export const Input: React.FC<InputProps> = ({
+  id,
   type = "text",
   label,
   name,
@@ -22,6 +24,7 @@ export const Input: React.FC<InputProps> = ({
   <div key={name} className="form-control">
     {label && <label>{label}</label>}
     <input
+      id={id}
       type={type}
       name={name}
       value={value}
