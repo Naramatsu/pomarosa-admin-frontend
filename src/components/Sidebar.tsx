@@ -19,7 +19,6 @@ export const Sidebar = () => {
 
   const isActive = (path: string) => location.pathname === path;
   const productPath = APP_ROUTES.PRODUCTS;
-  const usersPath = APP_ROUTES.USERS;
 
   return (
     <aside className="sidebar">
@@ -35,14 +34,6 @@ export const Sidebar = () => {
         >
           <span className="nav-icon">📦</span>
           <span className="nav-text">Productos</span>
-        </button>
-
-        <button
-          className={`nav-item ${isActive(usersPath) ? "active" : ""}`}
-          onClick={() => navigate(usersPath)}
-        >
-          <span className="nav-icon">👥</span>
-          <span className="nav-text">Usuarios</span>
         </button>
       </nav>
 

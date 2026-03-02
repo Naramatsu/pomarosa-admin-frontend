@@ -64,8 +64,6 @@ const App = () => {
           <Route path={APP_ROUTES.HOME} element={<HomePage />} />
           <Route path={APP_ROUTES.PRODUCTS} element={<ProductsPage />} />
           <Route path={APP_ROUTES.PRODUCT} element={<ProductPage />} />
-          <Route path={APP_ROUTES.USERS} element={<ProductsPage />} />
-          <Route path="/test" element={<p>Hello from test</p>} />
         </Routes>
       </DashboardLayout>
     </>
